@@ -1,19 +1,21 @@
 const express = require('express')
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const router = require('./router');
+
 
 const app = express()
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json())
 
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true, maxAge: 60000000 }
-}))
+app.all('*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "content-type");
+  res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+  res.header("Content-Type", "application/json;charset=utf-8");
+  next();
+});
+
 
 app.use(router)
 
