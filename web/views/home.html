@@ -1,12 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="../css/home.css"></link> -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <title>Home</title>
 </head>
+
 <body>
-  <h1>111</h1>
+  <header>
+    <div class="has-user">
+      <p class="user">{{_user}}</p>
+      <button class="btn btn-primary" id="publish">Publish</button>
+      <button class="btn btn-primary" id="exit">Exit</button>
+    </div>
+    <div class="no-user">
+      <button class="btn btn-primary" id="login">Login</button>
+      <button class="btn btn-primary" id="registar">Registar</button>
+    </div>
+  </header>
+  <main>
+    <ul class="container">
+      <script type="text/template" id="story-template">
+      <li class="story-item" id = {{_index}}>
+        <p>
+          <span class="title">{{_title}}</span><span class="pushlish-info">by {{_author}} on {{_ctime}}</span>
+        </p>
+        <img src="{{_img}}" alt="">
+        <p>
+          <span class="content">{{_content}}</span>
+        </p>
+      </li>
+    </script>
+    </ul>
+  </main>
+  <script>
+    document.querySelector('#login').onclick = () => {window.location = './login.html'}
+    document.querySelector('#registar').onclick = () => {window.location = './registar.html'}
+    document.querySelector('#publish').onclick = () => {window.location = './publish.html'}
+    document.querySelector('#exit').onclick = () => {
+      localStorage.clear()
+      location.reload()
+    }
+
+    axios.get('http://localhost:3000/getStory').then((res, err) => {
+      try {
+        let data = res.data.data
+        let tp = document.querySelector('#story-template').innerHTML
+        let html = data
+          .map((item, index) => {
+            let result = tp
+              .replace('{{_index}}', index)
+              .replace('{{_title}}', item.title)
+              .replace('{{_author}}', item.author)
+              .replace('{{_ctime}}', item.ctime)
+              .replace('{{_img}}', item.img)
+              .replace('{{_content}}', item.content)
+            return result
+          })
+          .join(' ')
+        document.querySelector('.container').innerHTML = html
+      } catch (err) {
+        alert('数据获取失败')
+      }
+    })
+    
+    if (localStorage.getItem('token')) {
+      document.querySelector('.no-user').style = 'display: none'
+      axios.get('http://localhost:3000/getUserInfo', {
+        headers: {
+          'Authorization': localStorage.getItem('token')
+        }
+      }).then((res, err) => {
+        try {
+          let data = res.data.data
+          document.querySelector('.user').innerHTML = data.account
+        } catch (err) {
+          alert('用户数据获取失败')
+        }
+      })
+    } else {
+      document.querySelector('.has-user').style = 'display: none'
+    }
+  </script>
 </body>
+
 </html>

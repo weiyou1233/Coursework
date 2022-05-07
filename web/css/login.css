@@ -1,4 +1,4 @@
-.content {
+.container {
   width: 500px;
   height: 340px;
   position: absolute;
@@ -19,7 +19,7 @@
 }
 
 .form-group {
-  padding-top: 18px;
+  padding-top: 10px;
 }
 
 .button {

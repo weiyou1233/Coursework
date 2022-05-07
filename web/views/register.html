@@ -4,29 +4,55 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/registar.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <title>registar</title>
 </head>
 <body>
-  <div class="content">
+  <div class="container">
       <div class="title">REGISTAR</div>
       <div class="form-group">
         <label>Account :</label>
-        <input type="email" class="form-control" id="account" aria-describedby="emailHelp">
+        <input type="text" class="form-control" id="account" aria-describedby="emailHelp">
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">Password : </label>
-        <input type="password" class="form-control" id="password">
+        <input type="password" class="form-control" id="pwd1">
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">Determine Password : </label>
-        <input type="password" class="form-control" id="password">
+        <input type="password" class="form-control" id="pwd2">
       </div>
       <div class="button">
-        <button class="btn btn-primary">Back</button>
-        <button class="btn btn-primary">Registar</button>
+        <button class="btn btn-primary" id="back">Back</button>
+        <button class="btn btn-primary" id="registar">Registar</button>
       </div>
   </div>
+  <script>
+    document.querySelector('#back').onclick = () => {
+      history.go(-1)
+    }
+    document.querySelector('#registar').onclick = () => {
+      let account = document.querySelector('#account').value
+      let pwd1 = document.querySelector('#pwd1').value
+      let pwd2 = document.querySelector('#pwd2').value
+      if (pwd1 !== pwd2) {
+        return alert("密码不一致，请重新输入!!")
+      }
+      axios.post('http://localhost:3000/registerUser', {account, pwd: pwd1}).then((res, err) => {
+        if (err) {
+          return alert('注册失败, 请稍后重试')
+        }
+        let data = res.data
+        if (!data.err_code) {
+          localStorage.setItem('token', data.token)
+          window.location = './home.html'
+        } else {
+          alert('用户已存在，请重新注册')
+        }
+      })
+    }
+  </script>
 </body>

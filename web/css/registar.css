@@ -1,8 +1,8 @@
-.content {
+.container {
   width: 500px;
-  height: 420px;
+  height: 440px;
   position: absolute;
-  transform: translate(-250px, -200px);
+  transform: translate(-250px, -210px);
   top: 50%;
   left: 50%;
   background-color: rgb(236, 230, 230);
@@ -19,7 +19,7 @@
 }
 
 .form-group {
-  padding-top: 18px;
+  padding-top: 10px;
 }
 
 .button {
