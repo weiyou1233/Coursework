@@ -35,6 +35,9 @@
         account: document.querySelector('#account').value,
         pwd: document.querySelector('#pwd').value
       }
+      if (!userData.account || !userData.pwd) {
+        return alert("输入信息不完全，请检查后重新输入")
+      }
       axios.post('http://localhost:3000/loginUser', userData).then((res, err) => {
         if (err) {
           return alert('登录失败, 请稍后重试')

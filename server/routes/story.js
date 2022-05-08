@@ -33,12 +33,14 @@ router.get('/getStory', async (req, res) => {
 
 router.post('/publishStory', async (req, res) => {
   try {
-    const body = req.body
-    new Story(body).save().then((story) => {
+    let token = req.headers.authorization.split(' ').pop()
+    let account = jwt.verify(token, 'abc')
+    let story = req.body
+    story.author = account
+    new Story(story).save().then(() => {
       res.status(200).json({
         err_code: 0,
         message: 'ok',
-        data: story
       })
     })
   } catch (err) {

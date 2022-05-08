@@ -41,6 +41,9 @@
       if (pwd1 !== pwd2) {
         return alert("密码不一致，请重新输入!!")
       }
+      if (!account || !pwd1 || !pwd2) {
+        return alert("输入信息不完全，请检查后重新输入")
+      }
       axios.post('http://localhost:3000/registerUser', {account, pwd: pwd1}).then((res, err) => {
         if (err) {
           return alert('注册失败, 请稍后重试')

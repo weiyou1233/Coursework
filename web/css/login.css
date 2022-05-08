@@ -1,3 +1,11 @@
+body {
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  background-color: #eee;
+}
+
 .container {
   width: 500px;
   height: 340px;
@@ -5,7 +13,7 @@
   transform: translate(-250px, -170px);
   top: 50%;
   left: 50%;
-  background-color: rgb(236, 230, 230);
+  background-color: rgb(228, 225, 225);
   padding: 40px;
   border-radius: 25px;
 }

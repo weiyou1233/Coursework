@@ -4,7 +4,75 @@
   box-sizing: border-box;
 }
 
-a:hover,a:link,a:visited,a:active,a:focus{
-	color: ghostwhite;
-	text-decoration: none;
+body {
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  background-color: #eee;
+}
+
+header {
+  position: fixed;
+  background-color: #343A3F;
+  height: 60px;
+  width: 1000px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.user {
+  display: flex;
+  color: white;
+  font-size: 20px;
+  height: 60px;
+  line-height: 60px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.btn {
+  width: 100px;
+  background-color: #24292F;
+  color: white;
+  font-size: 20px;
+
+}
+
+.has-user,
+.no-user {
+  display: flex;
+  justify-content: flex-start;
+}
+
+main {
+  margin-top: 60px;
+}
+
+ul,
+li {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.story-item {
+  margin-top: 5px;
+  margin-left: -15px;
+  width: 1000px;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.title {
+  font-size: 25px;
+}
+
+img {
+  width: 500px;
+}
+
+.content {
+  padding-top: 20px;
 }

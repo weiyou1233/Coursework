@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <!-- <link rel="stylesheet" href="../css/home.css"></link> -->
+  <link rel="stylesheet" href="../css/home.css"></link>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <title>Home</title>
@@ -15,13 +15,13 @@
 <body>
   <header>
     <div class="has-user">
-      <p class="user">{{_user}}</p>
-      <button class="btn btn-primary" id="publish">Publish</button>
-      <button class="btn btn-primary" id="exit">Exit</button>
+      <button class="btn btn-secondary" id="publish">Publish</button>
+      <button class="btn btn-secondary" id="exit">Exit</button>
+      <div class="user"></div>
     </div>
     <div class="no-user">
-      <button class="btn btn-primary" id="login">Login</button>
-      <button class="btn btn-primary" id="registar">Registar</button>
+      <button class="btn" id="login">Login</button>
+      <button class="btn" id="registar">Registar</button>
     </div>
   </header>
   <main>
@@ -29,11 +29,11 @@
       <script type="text/template" id="story-template">
       <li class="story-item" id = {{_index}}>
         <p>
-          <span class="title">{{_title}}</span><span class="pushlish-info">by {{_author}} on {{_ctime}}</span>
+          <span class="title">{{_title}}</span><span class="pushlish-info">&nbsp by {{_author}} &nbsp on {{_ctime}}</span>
         </p>
         <img src="{{_img}}" alt="">
-        <p>
-          <span class="content">{{_content}}</span>
+        <p class="content">
+          <span>{{_content}}</span>
         </p>
       </li>
     </script>
@@ -54,11 +54,12 @@
         let tp = document.querySelector('#story-template').innerHTML
         let html = data
           .map((item, index) => {
+            let time = item.ctime.slice(0, 10) +  " " + item.ctime.slice(11, 19)
             let result = tp
               .replace('{{_index}}', index)
               .replace('{{_title}}', item.title)
               .replace('{{_author}}', item.author)
-              .replace('{{_ctime}}', item.ctime)
+              .replace('{{_ctime}}', time)
               .replace('{{_img}}', item.img)
               .replace('{{_content}}', item.content)
             return result
@@ -79,7 +80,7 @@
       }).then((res, err) => {
         try {
           let data = res.data.data
-          document.querySelector('.user').innerHTML = data.account
+          document.querySelector('.user').innerHTML = '账号：' + data.account
         } catch (err) {
           alert('用户数据获取失败')
         }
