@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/roomEntrance.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>room</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="title">ROOM ENTRANCE</div>
+    <button class="btn btn-info" id="new-room">Create a new room</button>
+    <div class="form-group">
+      <label>Join one of the following rooms :</label>
+      <select multiple class="form-control" id="exampleFormControlSelect2">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
+
+    <script>
+      document.querySelector('#new-room').onclick = () => { window.location = './room.html?id=' +  location.search.slice(4)}
+    </script>
+  </div>
+</body>
+
+</html>

@@ -13,9 +13,10 @@ body {
   transform: translate(-250px, -210px);
   top: 50%;
   left: 50%;
-  background-color: rgb(228, 225, 225);
+  background-color: #fff;
   padding: 40px;
   border-radius: 25px;
+  box-shadow: 5px 5px 5px #999;
 }
 
 .title {

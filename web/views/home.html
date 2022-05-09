@@ -27,36 +27,29 @@
   <main>
     <ul class="container">
       <script type="text/template" id="story-template">
-      <li class="story-item" id = {{_index}}>
-        <p>
-          <span class="title">{{_title}}</span><span class="pushlish-info">&nbsp by {{_author}} &nbsp on {{_ctime}}</span>
-        </p>
-        <img src="{{_img}}" alt="">
-        <p class="content">
-          <span>{{_content}}</span>
-        </p>
-      </li>
-    </script>
+        <li class="story-item">
+          <p>
+            <span class="title">{{_title}}</span><span class="pushlish-info">&nbsp by {{_author}} &nbsp on {{_ctime}}</span>
+             <button class="btn btn-info to-room" id = {{_id}}>to room</button>
+          </p>
+          <img src="{{_img}}" alt="">
+          <p class="content">
+            <span>{{_content}}</span>
+          </p>
+        </li>
+      </script>
     </ul>
   </main>
   <script>
-    document.querySelector('#login').onclick = () => {window.location = './login.html'}
-    document.querySelector('#registar').onclick = () => {window.location = './registar.html'}
-    document.querySelector('#publish').onclick = () => {window.location = './publish.html'}
-    document.querySelector('#exit').onclick = () => {
-      localStorage.clear()
-      location.reload()
-    }
-
-    axios.get('http://localhost:3000/getStory').then((res, err) => {
+    axios.get('http://localhost:3000/getStories').then((res, err) => {
       try {
         let data = res.data.data
         let tp = document.querySelector('#story-template').innerHTML
         let html = data
           .map((item, index) => {
-            let time = item.ctime.slice(0, 10) +  " " + item.ctime.slice(11, 19)
+            let time = item.ctime.slice(0, 10) + " " + item.ctime.slice(11, 19)
             let result = tp
-              .replace('{{_index}}', index)
+              .replace('{{_id}}', item._id)
               .replace('{{_title}}', item.title)
               .replace('{{_author}}', item.author)
               .replace('{{_ctime}}', time)
@@ -70,7 +63,7 @@
         alert('数据获取失败')
       }
     })
-    
+
     if (localStorage.getItem('token')) {
       document.querySelector('.no-user').style = 'display: none'
       axios.get('http://localhost:3000/getUserInfo', {
@@ -80,13 +73,28 @@
       }).then((res, err) => {
         try {
           let data = res.data.data
-          document.querySelector('.user').innerHTML = '账号：' + data.account
+          document.querySelector('.user').innerHTML = '用户：' + data.account
         } catch (err) {
           alert('用户数据获取失败')
         }
       })
     } else {
       document.querySelector('.has-user').style = 'display: none'
+    }
+
+    document.querySelector('#login').onclick = () => { window.location = './login.html' }
+    document.querySelector('#registar').onclick = () => { window.location = './registar.html' }
+    document.querySelector('#publish').onclick = () => { window.location = './publish.html' }
+    document.querySelector('#exit').onclick = () => {
+      localStorage.clear()
+      location.reload()
+    }
+    document.querySelector('.container').onclick = (e) => {
+      if (localStorage.getItem('token')) {
+        window.open('./roomEntrance.html?id=' + e.target.id)
+      } else {
+        alert('请先登录账号！！')
+      }
     }
   </script>
 </body>

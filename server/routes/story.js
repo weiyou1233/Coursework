@@ -8,9 +8,10 @@ mongoose.connect('mongodb://localhost/Coursework');
 const router = express.Router();
 
 
-router.get('/getStory', async (req, res) => {
+router.get('/getStories', async (req, res) => {
+  console.log(req.params);
   try {
-    let data = await Story.find()
+    var data = await Story.find()
     data.sort((a, b) => {
       if (a.ctime < b.ctime) {
         return 1
@@ -18,6 +19,25 @@ router.get('/getStory', async (req, res) => {
         return -1
       }
     })
+    return res.status(200).json({
+      err_code: 0,
+      message: 'success',
+      data,
+    })
+  } catch (err) {
+    return res.status(500).json({
+      err_code: 500,
+      message: 'Server Error'
+    })
+  }
+})
+
+router.get('/getOneStory?:id', async (req, res) => {
+  console.log(req.query.id);
+  try {
+    let id = req.query.id
+    console.log(id);
+    var data = await Story.findOne({"_id": id})
     return res.status(200).json({
       err_code: 0,
       message: 'success',

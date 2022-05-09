@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/room.css">
+  </link>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
+  <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  <title>room</title>
+</head>
+
+<body>
+  <main>
+    <div class="container">
+      <p  class="title">
+        <span>{{_title}}</span>
+      </p>
+      <p>
+        <span class="pushlish-info">&nbsp by {{_author}} &nbsp on {{_ctime}}</span>
+      </p>
+      <img src="{{_img}}" alt="">
+      <p class="content">
+        <span>{{_content}}</span>
+      </p>
+    </div>
+    <div class="chat">
+      <p class="discussion">Discussion:</p>
+      <ul id="messages">
+        <script type="text/template" id="chat-template">
+          <li class="chat-item">
+            <div class="chat-account">{{_account}}:</div>
+            <div class="chat-content">{{_content}}</div>
+          </li>
+        </script>
+      </ul>
+      <form id="form" action="">
+        <input id="input" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
+  </main>
+  <script>
+    let account = null
+    let storyId = location.search.slice(4)
+    if (!storyId) {
+      alert('故事数据获取失败')
+    }
+    let container = document.querySelector('.container')
+    axios.get('http://localhost:3000/getOneStory?id=' + storyId).then((res, err) => {
+      try {
+        let data = res.data.data
+        let time = data.ctime.slice(0, 10) + " " + data.ctime.slice(11, 19)
+        let html = container.innerHTML
+          .replace('{{_id}}', data._id)
+          .replace('{{_title}}', data.title)
+          .replace('{{_author}}', data.author)
+          .replace('{{_ctime}}', time)
+          .replace('{{_img}}', data.img)
+          .replace('{{_content}}', data.content)
+          container.innerHTML = html
+      } catch (err) {
+        alert('数据获取失败')
+      }
+    })
+
+    if (localStorage.getItem('token')) {
+      axios.get('http://localhost:3000/getUserInfo', {
+        headers: {
+          'Authorization': localStorage.getItem('token')
+        }
+      }).then((res, err) => {
+        try {
+          account = res.data.data.account
+        } catch (err) {
+          alert('用户数据获取失败')
+        }
+      })
+    } else {
+      alert('请先登录账号！！')
+    }
+    
+    var socket = io('http://localhost:4000', {
+      auth: {
+        token: "123"
+      },
+      query: {
+        "mykey": "my-value"
+      }
+    });
+    let inp = document.querySelector('#input')
+    document.querySelector('button').onclick = (e) => {
+      e.preventDefault();
+      socket.emit('chat', JSON.stringify({account, content: inp.value}));
+      return false;
+    }
+    socket.on('chat', function (_msg) {
+      let msg = JSON.parse(_msg)
+      let tp = document.querySelector('#chat-template').innerHTML
+      let html = tp.replace('{{_account}}', msg.account).replace('{{_content}}', msg.content)
+      $('#messages').append(html);
+    });
+  </script>
+</body>
+
+</html>

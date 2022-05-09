@@ -1,0 +1,117 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  background-color: #eee;
+}
+
+main {
+  background-color: #fff;
+}
+
+.container {
+  margin-top: 5px;
+  width: 1000px;
+  padding: 20px;
+  text-align: center;
+}
+
+.title {
+  font-size: 30px;
+  text-align: center;
+}
+
+img {
+  width: 75%;
+}
+
+.content {
+  padding: 20px 8% 0px;
+  text-align: start;
+  text-indent: 2em;
+}
+
+.chat {
+  position: relative;
+}
+
+.discussion {
+  font-size: 25px;
+  text-indent: 3.5em;
+}
+
+#messages {
+  list-style-type: none;
+  min-height: 500px;
+  border: #333 solid 1px;
+  width: 850px;
+  padding: 35px 30px;
+  margin: auto;
+}
+
+.chat-item {
+  width: 848px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+
+.chat-account {
+  width: 100px;
+  text-align: end;
+  padding-right: 10px;
+  font-size: 18px;
+}
+
+.chat-content {
+  width: 500px;
+  word-break: break-all;
+	overflow: auto;
+	white-space: normal;
+  padding-right: 60px;
+  flex: 1;
+}
+
+
+#form {
+  background: rgba(100,100, 100, 0.5);
+  padding: 4px;
+  position: sticky;
+  width: 850px;
+  bottom: 0;
+  margin-left: 75px;
+  display: flex;
+  height: 50px;
+  box-sizing: border-box;
+  backdrop-filter: blur(10px);
+}
+
+#input {
+  border: none;
+  padding: 0 16px;
+  flex-grow: 1;
+  border-radius: 32px;
+  margin: 4px;
+}
+
+#input:focus {
+  outline: none;
+}
+
+#form>button {
+  background: #333;
+  border: none;
+  padding: 0 16px;
+  margin: 4px;
+  border-radius: 3px;
+  outline: none;
+  color: #fff;
+}

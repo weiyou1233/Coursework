@@ -20,5 +20,5 @@ app.all('*', function(req, res, next) {
 app.use(router)
 
 app.listen(3000,() => {
-  console.log("app is runing at port 3000");
+  console.log('listening on *:3000');
 })
