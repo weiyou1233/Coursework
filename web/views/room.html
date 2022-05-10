@@ -84,21 +84,18 @@
       alert('请先登录账号！！')
     }
     
-    var socket = io('http://localhost:4000', {
-      auth: {
-        token: "123"
-      },
+    var socket = io('http://localhost:3000', {
       query: {
-        "mykey": "my-value"
+        storyId,
       }
     });
     let inp = document.querySelector('#input')
     document.querySelector('button').onclick = (e) => {
       e.preventDefault();
-      socket.emit('chat', JSON.stringify({account, content: inp.value}));
+      socket.emit(`${storyId}`, JSON.stringify({account, content: inp.value}));
       return false;
     }
-    socket.on('chat', function (_msg) {
+    socket.on(`${storyId}`, function (_msg) {
       let msg = JSON.parse(_msg)
       let tp = document.querySelector('#chat-template').innerHTML
       let html = tp.replace('{{_account}}', msg.account).replace('{{_content}}', msg.content)

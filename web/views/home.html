@@ -20,8 +20,8 @@
       <div class="user"></div>
     </div>
     <div class="no-user">
-      <button class="btn" id="login">Login</button>
-      <button class="btn" id="registar">Registar</button>
+      <button class="btn btn-secondary" id="login">Login</button>
+      <button class="btn btn-secondary" id="registar">Registar</button>
     </div>
   </header>
   <main>
@@ -30,7 +30,7 @@
         <li class="story-item">
           <p>
             <span class="title">{{_title}}</span><span class="pushlish-info">&nbsp by {{_author}} &nbsp on {{_ctime}}</span>
-             <button class="btn btn-info to-room" id = {{_id}}>to room</button>
+            <button class="btn btn-info to-room" id = {{_id}}>to room</button>
           </p>
           <img src="{{_img}}" alt="">
           <p class="content">
@@ -91,7 +91,7 @@
     }
     document.querySelector('.container').onclick = (e) => {
       if (localStorage.getItem('token')) {
-        window.open('./roomEntrance.html?id=' + e.target.id)
+        window.open('./room.html?id=' + e.target.id)
       } else {
         alert('请先登录账号！！')
       }

@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const router = require('./router');
 
-
 const app = express()
 
 app.use(bodyParser.urlencoded({extended:false}));
@@ -16,9 +15,24 @@ app.all('*', function(req, res, next) {
   next();
 });
 
-
 app.use(router)
 
-app.listen(3000,() => {
+const Server = require("http").Server(app);
+const io = require("socket.io")(Server, { cors: true });
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  console.log(socket.handshake.query.storyId);
+  let storyId = socket.handshake.query.storyId
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+  socket.on(`${storyId}`, function(msg){
+    console.log('message: ' + msg);
+    io.emit(`${storyId}`, msg);
+  });
+});
+
+Server.listen(3000,() => {
   console.log('listening on *:3000');
 })

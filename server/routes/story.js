@@ -36,7 +36,6 @@ router.get('/getOneStory?:id', async (req, res) => {
   console.log(req.query.id);
   try {
     let id = req.query.id
-    console.log(id);
     var data = await Story.findOne({"_id": id})
     return res.status(200).json({
       err_code: 0,

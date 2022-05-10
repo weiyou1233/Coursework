@@ -5,7 +5,9 @@ const io = require("socket.io")(http, { cors: true });
 
 io.on('connection', (socket) => {
   console.log('a user connected');
-  // console.log(socket.handshake.query.mykey);
+  console.log(socket.id);
+  console.log(socket.handshake.query.storyId);
+  console.log(socket.handshake.auth.token);
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
