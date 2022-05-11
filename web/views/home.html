@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/home.css"></link>
+  <!-- <link rel="stylesheet" href="/css/home.css"></link> -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <title>Home</title>
@@ -91,7 +92,9 @@
     }
     document.querySelector('.container').onclick = (e) => {
       if (localStorage.getItem('token')) {
-        window.open('./room.html?id=' + e.target.id)
+        if (e.target.id) {
+          window.open('./room.html?id=' + e.target.id)
+        }
       } else {
         alert('请先登录账号！！')
       }

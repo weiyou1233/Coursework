@@ -17,12 +17,18 @@ app.all('*', function(req, res, next) {
 
 app.use(router)
 
+app.use(function(err,req,res,next){
+  res.status(500).json({
+    err_code: 500,
+    message: 'Server Error'
+  })
+});
+
 const Server = require("http").Server(app);
 const io = require("socket.io")(Server, { cors: true });
 
 io.on('connection', (socket) => {
   console.log('a user connected');
-  console.log(socket.handshake.query.storyId);
   let storyId = socket.handshake.query.storyId
   socket.on('disconnect', () => {
     console.log('user disconnected');

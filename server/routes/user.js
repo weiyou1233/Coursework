@@ -8,12 +8,15 @@ mongoose.connect('mongodb://localhost/Coursework');
 
 const router = express.Router();
 
-router.post('/loginUser', async (req, res) => {
+router.post('/loginUser', async (req, res, next) => {
   const body = req.body
   console.log(body);
   body.pwd = md5(md5(body.pwd))
   try {
-    let data = await User.findOne({account: body.account, pwd: body.pwd})
+    let data = await User.findOne({
+      account: body.account,
+      pwd: body.pwd
+    })
     console.log(data);
     if (data) {
       const token = jwt.sign(body.account, 'abc')
@@ -29,18 +32,17 @@ router.post('/loginUser', async (req, res) => {
       message: 'Account does not exist or Pwd is wrong'
     })
   } catch (err) {
-    return res.status(500).json({
-      err_code: 500,
-      message: 'Server Error'
-    })
+    next(err);
   }
 })
 
-router.post('/registerUser', async (req, res) => {
+router.post('/registerUser', async (req, res, next) => {
   const body = req.body
   body.pwd = md5(md5(body.pwd))
   try {
-    if (await User.findOne({ account: body.account})) {
+    if (await User.findOne({
+        account: body.account
+      })) {
       return res.status(200).json({
         err_code: 1,
         message: 'Account aleary exists'
@@ -56,28 +58,24 @@ router.post('/registerUser', async (req, res) => {
       })
     })
   } catch (err) {
-    return res.status(500).json({
-      err_code: 500,
-      message: 'Server Error'
-    })
+    next(err);
   }
 })
 
-router.get('/getUserInfo', async (req, res) => {
+router.get('/getUserInfo', async (req, res, next) => {
   let token = req.headers.authorization.split(' ').pop()
   let account = jwt.verify(token, 'abc')
   try {
-    let data = await User.findOne({account})
+    let data = await User.findOne({
+      account
+    })
     return res.status(200).json({
       err_code: 0,
       message: 'success',
       data,
     })
   } catch (err) {
-    return res.status(500).json({
-      err_code: 500,
-      message: 'Server Error'
-    })
+    next(err);
   }
 })
 

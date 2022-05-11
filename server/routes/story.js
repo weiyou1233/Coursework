@@ -8,7 +8,7 @@ mongoose.connect('mongodb://localhost/Coursework');
 const router = express.Router();
 
 
-router.get('/getStories', async (req, res) => {
+router.get('/getStories', async (req, res, next) => {
   console.log(req.params);
   try {
     var data = await Story.find()
@@ -25,14 +25,11 @@ router.get('/getStories', async (req, res) => {
       data,
     })
   } catch (err) {
-    return res.status(500).json({
-      err_code: 500,
-      message: 'Server Error'
-    })
+    next(err);
   }
 })
 
-router.get('/getOneStory?:id', async (req, res) => {
+router.get('/getOneStory?:id', async (req, res, next) => {
   console.log(req.query.id);
   try {
     let id = req.query.id
@@ -43,14 +40,11 @@ router.get('/getOneStory?:id', async (req, res) => {
       data,
     })
   } catch (err) {
-    return res.status(500).json({
-      err_code: 500,
-      message: 'Server Error'
-    })
+    next(err);
   }
 })
 
-router.post('/publishStory', async (req, res) => {
+router.post('/publishStory', async (req, res, next) => {
   try {
     let token = req.headers.authorization.split(' ').pop()
     let account = jwt.verify(token, 'abc')
@@ -63,10 +57,7 @@ router.post('/publishStory', async (req, res) => {
       })
     })
   } catch (err) {
-    return res.status(500).json({
-      err_code: 500,
-      message: 'Server Error'
-    })
+    next(err);
   }
 })
 
