@@ -3,7 +3,11 @@ const router = require('./router');
 
 const app = express()
 
-app.use('/css/',express.static('./css/'));
+app.use('/css/', express.static('./css/'));
+app.use('/node_modules/', express.static('./node_modules/'));
+
+
+app.use('/sw.js', express.static('./sw.js'));
 
 app.use(router)
 
