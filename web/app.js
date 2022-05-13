@@ -8,6 +8,7 @@ app.use('/node_modules/', express.static('./node_modules/'));
 
 
 app.use('/sw.js', express.static('./sw.js'));
+app.use('/indexedDB.js', express.static('./indexedDB.js'));
 
 app.use(router)
 

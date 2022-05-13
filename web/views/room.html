@@ -10,6 +10,7 @@
   <script src="/node_modules/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
   <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="/indexedDB.js"></script>
 
   <title>room</title>
 </head>
@@ -17,7 +18,7 @@
 <body>
   <main>
     <div class="container">
-      <p  class="title">
+      <p class="title">
         <span>{{_title}}</span>
       </p>
       <p>
@@ -30,26 +31,27 @@
     </div>
     <div class="chat">
       <p class="discussion">Discussion:</p>
-      <ul id="messages">
-        <script type="text/template" id="chat-template">
-          <li class="chat-item">
-            <div class="chat-account">{{_account}}:</div>
-            <div class="chat-content">{{_content}}</div>
-          </li>
-        </script>
-      </ul>
+      <ul id="messages"></ul>
       <form id="form" action="">
         <input id="input" autocomplete="off" /><button>Send</button>
       </form>
     </div>
   </main>
+
+  <script type="text/template" id="chat-template">
+    <li class="chat-item">
+      <div class="chat-account">{{_account}}:</div>
+      <div class="chat-content">{{_content}}</div>
+    </li>
+  </script>
+
   <script>
-    let account = null
+    let account = localStorage.getItem('account')
     let storyId = location.search.slice(4)
     let container = document.querySelector('.container')
-    axios.get('http://localhost:3000/getOneStory?id=' + storyId).then((res, err) => {
-      try {
-        let data = res.data.data
+
+    openDB('StoryChat', 1).then(db => {
+      getDataByKey(db, 'Story', storyId).then(data => {
         let time = data.ctime.slice(0, 10) + " " + data.ctime.slice(11, 19)
         let html = container.innerHTML
           .replace('{{_id}}', data._id)
@@ -58,28 +60,10 @@
           .replace('{{_ctime}}', time)
           .replace('{{_img}}', data.img)
           .replace('{{_content}}', data.content)
-          container.innerHTML = html
-      } catch (err) {
-        alert('数据获取失败')
-      }
+        container.innerHTML = html
+      })
     })
 
-    if (localStorage.getItem('token')) {
-      axios.get('http://localhost:3000/getUserInfo', {
-        headers: {
-          'Authorization': localStorage.getItem('token')
-        }
-      }).then((res, err) => {
-        try {
-          account = res.data.data.account
-        } catch (err) {
-          alert('用户数据获取失败')
-        }
-      })
-    } else {
-      alert('请先登录账号！！')
-    }
-    
     var socket = io('http://localhost:3000', {
       query: {
         storyId,
@@ -87,12 +71,44 @@
     });
     let inp = document.querySelector('#input')
     document.querySelector('button').onclick = (e) => {
-      socket.emit(`${storyId}`, JSON.stringify({account, content: inp.value}));
+      socket.emit(`${storyId}`, JSON.stringify({ account, content: inp.value }));
       inp.value = ''
       return false;
     }
+
+    let chatData = {
+      id: storyId,
+      content: []
+    }
+
+    openDB('StoryChat', 1).then(db => {
+      getDataByKey(db, 'Chat', storyId).then(data => {
+        if (!!data) {
+          chatData = data
+          let tp = document.querySelector('#chat-template').innerHTML
+          let html = chatData.content
+            .map((item, index) => {
+              let result = tp
+                .replace('{{_account}}', item.account)
+                .replace('{{_content}}', item.content)
+              return result
+            })
+            .join(' ')
+          document.querySelector('#messages').innerHTML = html
+        }
+      })
+    })
+
     socket.on(`${storyId}`, function (_msg) {
       let msg = JSON.parse(_msg)
+      // msg.ctime = Date.now()
+      chatData.content.push(msg)
+      openDB('StoryChat', 1).then(db => {
+        chatData.id = storyId
+        chatData.storyId = storyId
+        console.log(chatData);
+        updateDB(db, 'Chat', chatData)
+      })
       let tp = document.querySelector('#chat-template').innerHTML
       let html = tp.replace('{{_account}}', msg.account).replace('{{_content}}', msg.content)
       $('#messages').append(html);
