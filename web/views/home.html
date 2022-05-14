@@ -28,6 +28,7 @@
     <ul class="container">
     </ul>
   </main>
+
   <script type="text/template" id="story-template">
     <li class="story-item">
       <p>
@@ -40,7 +41,9 @@
       </p>
     </li>
   </script>
+
   <script>
+
     function generStoryHtml(data) {
       let tp = document.querySelector('#story-template').innerHTML
       data.sort((a, b) => {
@@ -67,6 +70,12 @@
     }
 
     function offline() {
+      document.querySelector('#login').onclick = () => { alert('无网络，无法登陆') }
+      document.querySelector('#registar').onclick = () => { alert('无网络，无法注册')}
+      document.querySelector('#publish').onclick = () => { alert('无网络，无法发布') }
+      document.querySelector('#exit').onclick = () => {
+        alert('无网络，请不要退出')
+      }
       document.querySelector('.user').innerHTML = '用户：' + localStorage.getItem('account')
       openDB('StoryChat', 1).then(db => {
         cursorGetData(db, 'Story').then(data => {
@@ -74,9 +83,18 @@
         })
       })
     }
-    
+
     axios.get('http://localhost:3000/getStories')
       .then((res, err) => {
+        document.querySelector('#login').onclick = () => { window.location = './login.html' }
+        document.querySelector('#registar').onclick = () => { window.location = './registar.html' }
+        document.querySelector('#publish').onclick = () => { window.location = './publish.html' }
+        document.querySelector('#exit').onclick = () => {
+          localStorage.clear()
+          location.reload()
+        }
+        console.log(999999999);
+
         try {
           let data = res.data.data
           openDB('StoryChat', 1).then(db => {
@@ -92,6 +110,7 @@
       })
       .catch(err => {
         offline()
+
       })
 
     if (localStorage.getItem('token')) {
@@ -117,13 +136,6 @@
       document.querySelector('.has-user').style = 'display: none'
     }
 
-    document.querySelector('#login').onclick = () => { window.location = './login.html' }
-    document.querySelector('#registar').onclick = () => { window.location = './registar.html' }
-    document.querySelector('#publish').onclick = () => { window.location = './publish.html' }
-    document.querySelector('#exit').onclick = () => {
-      localStorage.clear()
-      location.reload()
-    }
     document.querySelector('.container').onclick = (e) => {
       if (localStorage.getItem('token')) {
         if (e.target.id) {

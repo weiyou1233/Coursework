@@ -91,8 +91,8 @@ function getDataByKey(db, storeName, key) {
 
 function cursorGetData(db, storeName) {
   let list = [];
-  var store = db.transaction([storeName]).objectStore(storeName); // 仓库对象
-  var request = store.openCursor(); // 指针对象
+  var store = db.transaction([storeName]).objectStore(storeName);
+  var request = store.openCursor();
   
   return new Promise((resolve, reject) => {
     request.onsuccess = function (e) {
@@ -108,7 +108,7 @@ function cursorGetData(db, storeName) {
 }
 
 function updateDB(db, storeName, data) {
-  let store = db.transaction([storeName], "readwrite").objectStore(storeName) // 仓库对象
+  let store = db.transaction([storeName], "readwrite").objectStore(storeName)
   let request = store.put(data);
 
   request.onsuccess = function () {

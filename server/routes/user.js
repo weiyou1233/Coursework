@@ -10,14 +10,12 @@ const router = express.Router();
 
 router.post('/loginUser', async (req, res, next) => {
   const body = req.body
-  console.log(body);
   body.pwd = md5(md5(body.pwd))
   try {
     let data = await User.findOne({
       account: body.account,
       pwd: body.pwd
     })
-    console.log(data);
     if (data) {
       const token = jwt.sign(body.account, 'abc')
       return res.status(200).json({

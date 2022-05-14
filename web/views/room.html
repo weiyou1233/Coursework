@@ -64,18 +64,6 @@
       })
     })
 
-    var socket = io('http://localhost:3000', {
-      query: {
-        storyId,
-      }
-    });
-    let inp = document.querySelector('#input')
-    document.querySelector('button').onclick = (e) => {
-      socket.emit(`${storyId}`, JSON.stringify({ account, content: inp.value }));
-      inp.value = ''
-      return false;
-    }
-
     let chatData = {
       id: storyId,
       content: []
@@ -99,20 +87,43 @@
       })
     })
 
-    socket.on(`${storyId}`, function (_msg) {
-      let msg = JSON.parse(_msg)
-      // msg.ctime = Date.now()
+    function generChatHtml(msg) {
       chatData.content.push(msg)
       openDB('StoryChat', 1).then(db => {
         chatData.id = storyId
         chatData.storyId = storyId
-        console.log(chatData);
         updateDB(db, 'Chat', chatData)
       })
       let tp = document.querySelector('#chat-template').innerHTML
       let html = tp.replace('{{_account}}', msg.account).replace('{{_content}}', msg.content)
       $('#messages').append(html);
-    });
+    }
+
+    let inp = document.querySelector('#input')
+    if (navigator.onLine) {
+      let socket = io('http://localhost:3000', {
+        query: {
+          storyId,
+        }
+      })
+      document.querySelector('button').onclick = (e) => {
+        socket.emit(`${storyId}`, JSON.stringify({ account, content: inp.value }));
+        inp.value = ''
+        return false
+      }
+      socket.on(`${storyId}`, function (_msg) {
+        let msg = JSON.parse(_msg)
+        generChatHtml(msg)
+        return false
+      });
+    } else {
+      document.querySelector('button').onclick = (e) => {
+        let msg = { account, content: inp.value }
+        generChatHtml(msg)
+        inp.value = ''
+        return false
+      }
+    }
   </script>
 </body>
 

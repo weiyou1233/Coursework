@@ -9,7 +9,6 @@ const router = express.Router();
 
 
 router.get('/getStories', async (req, res, next) => {
-  console.log(req.params);
   try {
     var data = await Story.find()
     data.sort((a, b) => {
@@ -30,7 +29,6 @@ router.get('/getStories', async (req, res, next) => {
 })
 
 router.get('/getOneStory?:id', async (req, res, next) => {
-  console.log(req.query.id);
   try {
     let id = req.query.id
     var data = await Story.findOne({"_id": id})

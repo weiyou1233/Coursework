@@ -13,7 +13,6 @@ app.use('/indexedDB.js', express.static('./indexedDB.js'));
 app.use(router)
 
 app.use(function(err,req,res,next){
-  console.error(err);
   res.status(500).send('Something broke');
 });
 
