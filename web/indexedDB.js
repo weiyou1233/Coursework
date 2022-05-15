@@ -18,7 +18,7 @@ function openDB(dbName, version = 1) {
 
     request.onupgradeneeded = function (e) {
       console.log("onupgradeneeded");
-      db = e.target.result; // 数据库对象
+      db = e.target.result;
 
       var storyStore = db.createObjectStore("Story", {
         keyPath: "id"
@@ -59,27 +59,27 @@ function openDB(dbName, version = 1) {
 }
 
 function addData(db, storeName, data) {
-  let store = db.transaction([storeName], "readwrite").objectStore(storeName) // 仓库对象
+  let store = db.transaction([storeName], "readwrite").objectStore(storeName)
   let request = store.add(data);
 
   request.onsuccess = function (event) {
-    console.log("数据写入成功");
+    console.log("Data written successfully");
   };
 
   request.onerror = function (event) {
     console.log(event);
-    console.log("数据写入失败");
+    console.log("Data write failure");
   };
 }
 
 
 function getDataByKey(db, storeName, key) {
   return new Promise((resolve, reject) => {
-    var store = db.transaction([storeName]).objectStore(storeName); // 仓库对象
-    var request = store.get(key); // 通过主键获取数据
+    var store = db.transaction([storeName]).objectStore(storeName);
+    var request = store.get(key);
 
     request.onerror = function (event) {
-      console.log("事务失败");
+      console.log("Transaction Failure");
     };
 
     request.onsuccess = function (event) {
@@ -112,11 +112,11 @@ function updateDB(db, storeName, data) {
   let request = store.put(data);
 
   request.onsuccess = function () {
-    console.log("数据更新成功");
+    console.log("Data updated successfully");
   };
 
   request.onerror = function () {
-    console.log("数据更新失败");
+    console.log("Data update failure");
   };
 }
 

@@ -44,7 +44,7 @@
         let title = document.querySelector('#title').value
         let content = document.querySelector('#content').value
         if (!title || !content || !imgBase64) {
-          return alert("输入信息不完全，请检查后重新输入")
+          return alert("The input information is incomplete, please check and re-enter")
         }
         axios.post('http://localhost:3000/publishStory', { title, content, img: imgBase64 }, {
           headers: {
@@ -52,14 +52,13 @@
           }
         }).then((res, err) => {
           if (err) {
-            return alert('发布失败，请重试')
+            return alert('Posting failed, please try again')
           }
           let data = res.data
-          console.log(data);
           if (!data.err_code) {
             window.location = './home.html'
           } else {
-            alert('发布失败，请重试')
+            alert('Posting failed, please try again')
           }
         })
 

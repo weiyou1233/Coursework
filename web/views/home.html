@@ -70,13 +70,13 @@
     }
 
     function offline() {
-      document.querySelector('#login').onclick = () => { alert('无网络，无法登陆') }
-      document.querySelector('#registar').onclick = () => { alert('无网络，无法注册')}
-      document.querySelector('#publish').onclick = () => { alert('无网络，无法发布') }
+      document.querySelector('#login').onclick = () => { alert('No network, cannot login') }
+      document.querySelector('#registar').onclick = () => { alert('No network, cannot register')}
+      document.querySelector('#publish').onclick = () => { alert('No network, cannot publish') }
       document.querySelector('#exit').onclick = () => {
-        alert('无网络，请不要退出')
+        alert('No network, please do not quit')
       }
-      document.querySelector('.user').innerHTML = '用户：' + localStorage.getItem('account')
+      document.querySelector('.user').innerHTML = 'Account：' + localStorage.getItem('account')
       openDB('StoryChat', 1).then(db => {
         cursorGetData(db, 'Story').then(data => {
           generStoryHtml(data)
@@ -93,8 +93,6 @@
           localStorage.clear()
           location.reload()
         }
-        console.log(999999999);
-
         try {
           let data = res.data.data
           openDB('StoryChat', 1).then(db => {
@@ -105,7 +103,7 @@
           })
           generStoryHtml(data)
         } catch (err) {
-          alert('数据获取失败')
+          alert('Data acquisition failed')
         }
       })
       .catch(err => {
@@ -124,9 +122,9 @@
           try {
             let data = res.data.data
             localStorage.setItem('account', data.account)
-            document.querySelector('.user').innerHTML = '用户：' + data.account
+            document.querySelector('.user').innerHTML = 'Account：' + data.account
           } catch (err) {
-            alert('用户数据获取失败')
+            alert('User data acquisition failure')
           }
         })
         .catch(err => {
@@ -142,7 +140,7 @@
           window.location = './room.html?id=' + e.target.id
         }
       } else {
-        alert('请先登录账号！！')
+        alert('Please login to your account !!!')
       }
     }
 
@@ -158,7 +156,9 @@
           });
       }
     })
+
   </script>
+
 </body>
 
 </html>

@@ -39,21 +39,21 @@
       let pwd1 = document.querySelector('#pwd1').value
       let pwd2 = document.querySelector('#pwd2').value
       if (pwd1 !== pwd2) {
-        return alert("密码不一致，请重新输入!!")
+        return alert("Password does not match, please re-enter!!!")
       }
       if (!account || !pwd1 || !pwd2) {
-        return alert("输入信息不完全，请检查后重新输入")
+        return alert("The input information is incomplete, please check and re-enter")
       }
       axios.post('http://localhost:3000/registerUser', {account, pwd: pwd1}).then((res, err) => {
         if (err) {
-          return alert('注册失败, 请稍后重试')
+          return alert('Registration failed, please try again later')
         }
         let data = res.data
         if (!data.err_code) {
           localStorage.setItem('token', data.token)
           window.location = './home.html'
         } else {
-          alert('用户已存在，请重新注册')
+          alert('User already exists, please re-register')
         }
       })
     }
