@@ -8,11 +8,11 @@
   <link rel="stylesheet" href="/css/register.css">
   <script src="/node_modules/axios/dist/axios.min.js"></script>
 
-  <title>registar</title>
+  <title>register</title>
 </head>
 <body>
   <div class="container">
-      <div class="title">REGISTAR</div>
+      <div class="title">REGISTER</div>
       <div class="form-group">
         <label>Account :</label>
         <input type="text" class="form-control" id="account" aria-describedby="emailHelp">
@@ -27,14 +27,14 @@
       </div>
       <div class="button">
         <button class="btn btn-primary" id="back">Back</button>
-        <button class="btn btn-primary" id="registar">Registar</button>
+        <button class="btn btn-primary" id="register">Register</button>
       </div>
   </div>
   <script>
     document.querySelector('#back').onclick = () => {
       history.go(-1)
     }
-    document.querySelector('#registar').onclick = () => {
+    document.querySelector('#register').onclick = () => {
       let account = document.querySelector('#account').value
       let pwd1 = document.querySelector('#pwd1').value
       let pwd2 = document.querySelector('#pwd2').value

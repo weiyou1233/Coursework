@@ -36,6 +36,8 @@ img {
   padding: 20px 8% 0px;
   text-align: start;
   text-indent: 2em;
+  word-wrap:break-word;
+
 }
 
 .chat {

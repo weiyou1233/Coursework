@@ -8,12 +8,12 @@ function openDB(dbName, version = 1) {
 
     request.onsuccess = function (e) {
       db = e.target.result;
-      console.log("数据库打开成功");
+      console.log("Database opened successfully");
       resolve(db);
     };
 
     request.onerror = function (e) {
-      console.log("数据库打开报错");
+      console.log("Database open error report");
     };
 
     request.onupgradeneeded = function (e) {
@@ -45,12 +45,9 @@ function openDB(dbName, version = 1) {
       var chatStore = db.createObjectStore("Chat", {
         keyPath: "id"
       });
-      storyStore.createIndex("id", "id", {
-        unique: true
-      });
-      chatStore.createIndex("storyId", "storyId", {
-        unique: true
-      });
+      // chatStore.createIndex("storyId", "storyId", {
+      //   unique: true
+      // });
       chatStore.createIndex("content", "content", {
         unique: false
       });

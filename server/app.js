@@ -34,6 +34,7 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
   socket.on(`${storyId}`, function(msg){
+    console.log('message:'+ msg);
     io.emit(`${storyId}`, msg);
   });
 });

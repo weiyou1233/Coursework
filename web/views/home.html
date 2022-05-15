@@ -21,7 +21,7 @@
     </div>
     <div class="no-user">
       <button class="btn btn-secondary" id="login">Login</button>
-      <button class="btn btn-secondary" id="registar">Registar</button>
+      <button class="btn btn-secondary" id="register">Register</button>
     </div>
   </header>
   <main>
@@ -71,7 +71,7 @@
 
     function offline() {
       document.querySelector('#login').onclick = () => { alert('No network, cannot login') }
-      document.querySelector('#registar').onclick = () => { alert('No network, cannot register')}
+      document.querySelector('#register').onclick = () => { alert('No network, cannot register')}
       document.querySelector('#publish').onclick = () => { alert('No network, cannot publish') }
       document.querySelector('#exit').onclick = () => {
         alert('No network, please do not quit')
@@ -87,7 +87,7 @@
     axios.get('http://localhost:3000/getStories')
       .then((res, err) => {
         document.querySelector('#login').onclick = () => { window.location = './login.html' }
-        document.querySelector('#registar').onclick = () => { window.location = './registar.html' }
+        document.querySelector('#register').onclick = () => { window.location = './register.html' }
         document.querySelector('#publish').onclick = () => { window.location = './publish.html' }
         document.querySelector('#exit').onclick = () => {
           localStorage.clear()
