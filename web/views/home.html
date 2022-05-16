@@ -13,6 +13,7 @@
 </head>
 
 <body>
+
   <header>
     <div class="has-user">
       <button class="btn btn-secondary" id="publish">Publish</button>
@@ -24,11 +25,11 @@
       <button class="btn btn-secondary" id="register">Register</button>
     </div>
   </header>
+
   <main>
     <ul class="container">
     </ul>
   </main>
-
   <script type="text/template" id="story-template">
     <li class="story-item">
       <p>
@@ -43,7 +44,6 @@
   </script>
 
   <script>
-
     function generStoryHtml(data) {
       let tp = document.querySelector('#story-template').innerHTML
       data.sort((a, b) => {
@@ -71,7 +71,7 @@
 
     function offline() {
       document.querySelector('#login').onclick = () => { alert('No network, cannot login') }
-      document.querySelector('#register').onclick = () => { alert('No network, cannot register')}
+      document.querySelector('#register').onclick = () => { alert('No network, cannot register') }
       document.querySelector('#publish').onclick = () => { alert('No network, cannot publish') }
       document.querySelector('#exit').onclick = () => {
         alert('No network, please do not quit')
@@ -144,7 +144,6 @@
       }
     }
 
-
     window.addEventListener('load', function (e) {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js', { scope: '/' })
@@ -156,7 +155,6 @@
           });
       }
     })
-
   </script>
 
 </body>

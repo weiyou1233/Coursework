@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,29 +8,31 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/register.css">
   <script src="/node_modules/axios/dist/axios.min.js"></script>
-
   <title>register</title>
 </head>
+
 <body>
+
   <div class="container">
-      <div class="title">REGISTER</div>
-      <div class="form-group">
-        <label>Account :</label>
-        <input type="text" class="form-control" id="account" aria-describedby="emailHelp">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Password : </label>
-        <input type="password" class="form-control" id="pwd1">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Determine Password : </label>
-        <input type="password" class="form-control" id="pwd2">
-      </div>
-      <div class="button">
-        <button class="btn btn-primary" id="back">Back</button>
-        <button class="btn btn-primary" id="register">Register</button>
-      </div>
+    <div class="title">REGISTER</div>
+    <div class="form-group">
+      <label>Account :</label>
+      <input type="text" class="form-control" id="account" aria-describedby="emailHelp">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password : </label>
+      <input type="password" class="form-control" id="pwd1">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Determine Password : </label>
+      <input type="password" class="form-control" id="pwd2">
+    </div>
+    <div class="button">
+      <button class="btn btn-primary" id="back">Back</button>
+      <button class="btn btn-primary" id="register">Register</button>
+    </div>
   </div>
+
   <script>
     document.querySelector('#back').onclick = () => {
       history.go(-1)
@@ -44,7 +47,7 @@
       if (!account || !pwd1 || !pwd2) {
         return alert("The input information is incomplete, please check and re-enter")
       }
-      axios.post('http://localhost:3000/registerUser', {account, pwd: pwd1}).then((res, err) => {
+      axios.post('http://localhost:3000/registerUser', { account, pwd: pwd1 }).then((res, err) => {
         if (err) {
           return alert('Registration failed, please try again later')
         }
@@ -58,4 +61,5 @@
       })
     }
   </script>
+  
 </body>

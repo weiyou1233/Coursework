@@ -12,6 +12,7 @@
 </head>
 
 <body>
+
   <div class="container">
     <div class="title">PUBLISH</div>
     <div class="form-group">
@@ -30,42 +31,43 @@
       <button class="btn btn-primary" id="back">Back</button>
       <button class="btn btn-primary" id="publish">Publish</button>
     </div>
-    <script>
-      let imgBase64 = null
-      document.querySelector('#back').onclick = () => { window.location = './home.html' }
-      document.querySelector('#img').onchange = function (e) {
-        const reader = new FileReader()
-        reader.readAsDataURL(this.files[0])
-        reader.onload = () => {
-          imgBase64 = reader.result
-        }
-      }
-      document.querySelector('#publish').onclick = () => {
-        let title = document.querySelector('#title').value
-        let content = document.querySelector('#content').value
-        if (!title || !content || !imgBase64) {
-          return alert("The input information is incomplete, please check and re-enter")
-        }
-        axios.post('http://localhost:3000/publishStory', { title, content, img: imgBase64 }, {
-          headers: {
-            'Authorization': localStorage.getItem('token')
-          }
-        }).then((res, err) => {
-          if (err) {
-            return alert('Posting failed, please try again')
-          }
-          let data = res.data
-          if (!data.err_code) {
-            window.location = './home.html'
-          } else {
-            alert('Posting failed, please try again')
-          }
-        })
-
-      }
-
-    </script>
   </div>
+
+  <script>
+    let imgBase64 = null
+    document.querySelector('#back').onclick = () => { window.location = './home.html' }
+    document.querySelector('#img').onchange = function (e) {
+      const reader = new FileReader()
+      reader.readAsDataURL(this.files[0])
+      reader.onload = () => {
+        imgBase64 = reader.result
+      }
+    }
+    document.querySelector('#publish').onclick = () => {
+      let title = document.querySelector('#title').value
+      let content = document.querySelector('#content').value
+      if (!title || !content || !imgBase64) {
+        return alert("The input information is incomplete, please check and re-enter")
+      }
+      axios.post('http://localhost:3000/publishStory', { title, content, img: imgBase64 }, {
+        headers: {
+          'Authorization': localStorage.getItem('token')
+        }
+      }).then((res, err) => {
+        if (err) {
+          return alert('Posting failed, please try again')
+        }
+        let data = res.data
+        if (!data.err_code) {
+          window.location = './home.html'
+        } else {
+          alert('Posting failed, please try again')
+        }
+      })
+
+    }
+  </script>
+  
 </body>
 
 </html>
