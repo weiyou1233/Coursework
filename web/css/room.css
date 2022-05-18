@@ -36,7 +36,7 @@ img {
   padding: 20px 8% 0px;
   text-align: start;
   text-indent: 2em;
-  word-wrap:break-word;
+  word-wrap: break-word;
 
 }
 
@@ -76,8 +76,8 @@ img {
 .chat-content {
   width: 500px;
   word-break: break-all;
-	overflow: auto;
-	white-space: normal;
+  overflow: auto;
+  white-space: normal;
   padding-right: 60px;
   font-size: 18px;
   flex: 1;
@@ -85,7 +85,7 @@ img {
 
 
 #form {
-  background: rgba(100,100, 100, 0.5);
+  background: rgba(100, 100, 100, 0.5);
   padding: 4px;
   position: sticky;
   width: 850px;

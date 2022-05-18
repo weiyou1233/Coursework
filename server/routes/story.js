@@ -31,7 +31,9 @@ router.get('/getStories', async (req, res, next) => {
 router.get('/getOneStory?:id', async (req, res, next) => {
   try {
     let id = req.query.id
-    var data = await Story.findOne({"_id": id})
+    var data = await Story.findOne({
+      "_id": id
+    })
     return res.status(200).json({
       err_code: 0,
       message: 'success',

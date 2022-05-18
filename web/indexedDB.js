@@ -45,9 +45,6 @@ function openDB(dbName, version = 1) {
       var chatStore = db.createObjectStore("Chat", {
         keyPath: "id"
       });
-      // chatStore.createIndex("storyId", "storyId", {
-      //   unique: true
-      // });
       chatStore.createIndex("content", "content", {
         unique: false
       });
@@ -90,13 +87,13 @@ function cursorGetData(db, storeName) {
   let list = [];
   var store = db.transaction([storeName]).objectStore(storeName);
   var request = store.openCursor();
-  
+
   return new Promise((resolve, reject) => {
     request.onsuccess = function (e) {
       var cursor = e.target.result;
       if (cursor) {
         list.push(cursor.value);
-        cursor.continue(); 
+        cursor.continue();
       } else {
         resolve(list);
       }
@@ -116,4 +113,3 @@ function updateDB(db, storeName, data) {
     console.log("Data update failure");
   };
 }
-

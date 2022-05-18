@@ -12,10 +12,10 @@ app.use('/indexedDB.js', express.static('./indexedDB.js'));
 
 app.use(router)
 
-app.use(function(err,req,res,next){
+app.use(function (err, req, res, next) {
   res.status(500).send('Something broke');
 });
 
-app.listen(5000,() => {
+app.listen(5000, () => {
   console.log('listening on *:5000');
 })
